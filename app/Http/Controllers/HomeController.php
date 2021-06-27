@@ -19,13 +19,17 @@ class HomeController extends Controller
     {
         $cars = Car::with('modifications')->limit(2)->get();
 
-        // выводи последние поколения
         $maxGeneration = CarModification::max('generation');
         $mods = CarModification::where('generation', $maxGeneration)->with('car')->limit(5)->get();
 
         return view('index', ['cars' => $cars, 'mods' => $mods]);
     }
 
+    /**
+     * Подробнее о машине
+     * @param Request $request
+     * @return Application|Factory|View
+     */
     public function view(Request $request){
 
         $car = Car::findOrFail($request->carId);
